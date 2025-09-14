@@ -22,10 +22,13 @@ import {
   ModalBody,
   ModalFooter,
   ModalCloseButton,
-  Select,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
   Switch,
-  useColorModeValue,
   SimpleGrid,
+  useColorModeValue,
 } from "@chakra-ui/react";
 
 // Chakra Icons
@@ -44,7 +47,7 @@ const usersData = [
     phone: "09171234567",
     role: "User",
     status: true,
-    lastOnline: new Date(), // now
+    lastOnline: new Date(),
   },
   {
     firstName: "Maria",
@@ -54,7 +57,7 @@ const usersData = [
     phone: "09182345678",
     role: "Admin",
     status: true,
-    lastOnline: new Date(Date.now() - 2 * 60 * 60 * 1000), // 2 hours ago
+    lastOnline: new Date(Date.now() - 2 * 60 * 60 * 1000),
   },
   {
     firstName: "Jose",
@@ -64,7 +67,7 @@ const usersData = [
     phone: "09193456789",
     role: "Super Admin",
     status: false,
-    lastOnline: new Date(Date.now() - 24 * 60 * 60 * 1000), // 1 day ago
+    lastOnline: new Date(Date.now() - 24 * 60 * 60 * 1000),
   },
 ];
 
@@ -85,6 +88,10 @@ export default function ManageUsersTable() {
   const rowEvenColor = useColorModeValue("white", "#0C0D0C");
   const rowOddColor = useColorModeValue("#F7FAFC", "#0C0D0C");
   const hoverColor = useColorModeValue("#EDF2F7", "#1A1A1A");
+
+  const inputBg = useColorModeValue("gray.100", "#1A1A1A");
+  const inputColor = useColorModeValue("gray.800", "white");
+  const buttonBg = useColorModeValue("#00B474", "#00B474");
 
   // Filter data
   const filteredData = useMemo(() => {
@@ -121,8 +128,8 @@ export default function ManageUsersTable() {
               setSearchQuery(e.target.value);
               setCurrentPage(1);
             }}
-            bg={useColorModeValue("white", "#1A1A1A")}
-            color={textColor}
+            bg={inputBg}
+            color={inputColor}
           />
         </Box>
       </Flex>
@@ -227,33 +234,33 @@ export default function ManageUsersTable() {
             <ModalBody>
               <SimpleGrid columns={{ base: 1, md: 2 }} spacing={6}>
                 <Box>
-                  <Text fontWeight="bold">Full Name:</Text>
+                  <Text fontWeight="bold">Full Name</Text>
                   <Text>{selectedUser.firstName} {selectedUser.lastName}</Text>
                 </Box>
                 <Box>
-                  <Text fontWeight="bold">Birthday:</Text>
+                  <Text fontWeight="bold">Birthday</Text>
                   <Text>{selectedUser.birthday}</Text>
                 </Box>
                 <Box>
-                  <Text fontWeight="bold">Email:</Text>
+                  <Text fontWeight="bold">Email</Text>
                   <Text>{selectedUser.email}</Text>
                 </Box>
                 <Box>
-                  <Text fontWeight="bold">Phone:</Text>
+                  <Text fontWeight="bold">Phone</Text>
                   <Text>{selectedUser.phone}</Text>
                 </Box>
                 <Box>
-                  <Text fontWeight="bold">Role:</Text>
+                  <Text fontWeight="bold">Role</Text>
                   <Text>{selectedUser.role}</Text>
                 </Box>
                 <Box>
-                  <Text fontWeight="bold">Status:</Text>
+                  <Text fontWeight="bold">Status</Text>
                   <Text color={selectedUser.status ? "green.400" : "red.400"}>
                     {selectedUser.status ? "Active" : "Inactive"}
                   </Text>
                 </Box>
                 <Box gridColumn={{ base: "span 1", md: "span 2" }}>
-                  <Text fontWeight="bold">Last Online:</Text>
+                  <Text fontWeight="bold">Last Online</Text>
                   <Text>
                     {formatDistanceToNow(new Date(selectedUser.lastOnline), { addSuffix: true })}
                   </Text>
@@ -278,28 +285,55 @@ export default function ManageUsersTable() {
               <Text mb="2"><b>Full Name:</b> {selectedUser.firstName} {selectedUser.lastName}</Text>
               <Text mb="2"><b>Email:</b> {selectedUser.email}</Text>
 
+              {/* Role Dropdown */}
               <Box mt="4">
                 <Text mb="1">Role</Text>
-                <Select
-                  defaultValue={selectedUser.role}
-                  onChange={(e) => (selectedUser.role = e.target.value)}
-                >
-                  <option value="User">User</option>
-                  <option value="Admin">Admin</option>
-                  <option value="Super Admin">Super Admin</option>
-                </Select>
+                <Menu>
+                  <MenuButton
+                    as={Button}
+                    flex="1"
+                    bg={inputBg}
+                    color={inputColor}
+                    borderRadius="8px"
+                    border={`1px solid ${buttonBg}`}
+                    textAlign="left"
+                    pl="3"
+                    pr="3"
+                    rightIcon={null}
+                    fontWeight="normal"
+                  >
+                    {selectedUser.role || "Select Role"}
+                  </MenuButton>
+                  <MenuList maxH="200px" overflowY="auto">
+                    {["User", "Admin", "Super Admin"].map((role, idx) => (
+                      <MenuItem
+                        key={idx}
+                        onClick={() => setSelectedUser({ ...selectedUser, role })}
+                      >
+                        {role}
+                      </MenuItem>
+                    ))}
+                  </MenuList>
+                </Menu>
               </Box>
 
+              {/* Status Switch */}
               <Box mt="4">
                 <Text mb="1">Status</Text>
                 <Switch
+                  size="md"
+                  colorScheme="green"
                   isChecked={selectedUser.status}
-                  onChange={(e) => (selectedUser.status = e.target.checked)}
+                  onChange={(e) => setSelectedUser({ ...selectedUser, status: e.target.checked })}
                 />
               </Box>
             </ModalBody>
             <ModalFooter>
-              <Button colorScheme="green" mr={3} onClick={() => setIsEditOpen(false)}>
+              <Button
+                colorScheme="green"
+                mr={3}
+                onClick={() => setIsEditOpen(false)}
+              >
                 Save
               </Button>
               <Button onClick={() => setIsEditOpen(false)}>Cancel</Button>
