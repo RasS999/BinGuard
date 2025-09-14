@@ -31,6 +31,9 @@ import {
 // Chakra Icons
 import { ViewIcon, EditIcon } from "@chakra-ui/icons";
 
+// Date formatting
+import { formatDistanceToNow } from "date-fns";
+
 // Sample Data
 const usersData = [
   {
@@ -41,7 +44,7 @@ const usersData = [
     phone: "09171234567",
     role: "User",
     status: true,
-    timestamp: "Sept 10, 2025 – 11:30 AM",
+    lastOnline: new Date(), // now
   },
   {
     firstName: "Maria",
@@ -51,7 +54,7 @@ const usersData = [
     phone: "09182345678",
     role: "Admin",
     status: true,
-    timestamp: "Sept 09, 2025 – 09:10 AM",
+    lastOnline: new Date(Date.now() - 2 * 60 * 60 * 1000), // 2 hours ago
   },
   {
     firstName: "Jose",
@@ -61,7 +64,7 @@ const usersData = [
     phone: "09193456789",
     role: "Super Admin",
     status: false,
-    timestamp: "Sept 08, 2025 – 02:45 PM",
+    lastOnline: new Date(Date.now() - 24 * 60 * 60 * 1000), // 1 day ago
   },
 ];
 
@@ -132,7 +135,7 @@ export default function ManageUsersTable() {
             <Th color={textColor}>Email</Th>
             <Th color={textColor}>Role</Th>
             <Th color={textColor}>Status</Th>
-            <Th color={textColor}>Created At</Th>
+            <Th color={textColor}>Last Online</Th>
             <Th color={textColor}>Action</Th>
           </Tr>
         </Thead>
@@ -156,7 +159,9 @@ export default function ManageUsersTable() {
                   {user.status ? "Active" : "Inactive"}
                 </Text>
               </Td>
-              <Td color={textColor}>{user.timestamp}</Td>
+              <Td color={textColor}>
+                {formatDistanceToNow(new Date(user.lastOnline), { addSuffix: true })}
+              </Td>
               <Td>
                 <Flex gap="2">
                   <IconButton
@@ -248,8 +253,10 @@ export default function ManageUsersTable() {
                   </Text>
                 </Box>
                 <Box gridColumn={{ base: "span 1", md: "span 2" }}>
-                  <Text fontWeight="bold">Created At:</Text>
-                  <Text>{selectedUser.timestamp}</Text>
+                  <Text fontWeight="bold">Last Online:</Text>
+                  <Text>
+                    {formatDistanceToNow(new Date(selectedUser.lastOnline), { addSuffix: true })}
+                  </Text>
                 </Box>
               </SimpleGrid>
             </ModalBody>
@@ -259,7 +266,6 @@ export default function ManageUsersTable() {
           </ModalContent>
         </Modal>
       )}
-
 
       {/* Edit Modal */}
       {selectedUser && (
