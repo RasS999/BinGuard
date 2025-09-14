@@ -12,7 +12,7 @@ import {
   MenuButton,
   MenuList,
   MenuItem,
-  Text,
+  Text
 } from "@chakra-ui/react";
 
 export default function UserInformation() {
@@ -44,7 +44,7 @@ export default function UserInformation() {
     { name: "September", days: 30 },
     { name: "October", days: 31 },
     { name: "November", days: 30 },
-    { name: "December", days: 31 },
+    { name: "December", days: 31 }
   ];
 
   const currentYear = new Date().getFullYear();
@@ -58,7 +58,15 @@ export default function UserInformation() {
   };
 
   const handleSave = () => {
-    console.log({ firstName, lastName, email, phone, birthMonth, birthDay, birthYear });
+    console.log({
+      firstName,
+      lastName,
+      email,
+      phone,
+      birthMonth,
+      birthDay,
+      birthYear
+    });
   };
 
   return (
@@ -74,12 +82,15 @@ export default function UserInformation() {
       <SimpleGrid columns={{ base: 1, md: 2 }} spacing={4}>
         <FormControl>
           <FormLabel>
-            First Name <Text as="span" color={buttonBg}>*</Text>
+            First Name{" "}
+            <Text as="span" color={buttonBg}>
+              *
+            </Text>
           </FormLabel>
           <Input
             placeholder="First Name"
             value={firstName}
-            onChange={(e) => setFirstName(e.target.value)}
+            onChange={e => setFirstName(e.target.value)}
             bg={inputBg}
             color={inputColor}
             _focus={inputFocus}
@@ -88,12 +99,15 @@ export default function UserInformation() {
 
         <FormControl>
           <FormLabel>
-            Last Name <Text as="span" color={buttonBg}>*</Text>
+            Last Name{" "}
+            <Text as="span" color={buttonBg}>
+              *
+            </Text>
           </FormLabel>
           <Input
             placeholder="Last Name"
             value={lastName}
-            onChange={(e) => setLastName(e.target.value)}
+            onChange={e => setLastName(e.target.value)}
             bg={inputBg}
             color={inputColor}
             _focus={inputFocus}
@@ -104,7 +118,10 @@ export default function UserInformation() {
       {/* Row 2: Birthday */}
       <FormControl mt={4}>
         <FormLabel>
-          Birthday <Text as="span" color={buttonBg}>*</Text>
+          Birthday{" "}
+          <Text as="span" color={buttonBg}>
+            *
+          </Text>
         </FormLabel>
         <Flex gap={2}>
           {/* Month */}
@@ -120,15 +137,16 @@ export default function UserInformation() {
               pl="3"
               pr="3"
               rightIcon={null}
+              fontWeight="normal" // make text normal
             >
               {birthMonth ? months[birthMonth - 1].name : "Select Month"}
             </MenuButton>
             <MenuList maxH="200px" overflowY="auto">
-              {months.map((m, i) => (
+              {months.map((m, i) =>
                 <MenuItem key={i} onClick={() => setBirthMonth(i + 1)}>
                   {m.name}
                 </MenuItem>
-              ))}
+              )}
             </MenuList>
           </Menu>
 
@@ -145,17 +163,19 @@ export default function UserInformation() {
               pl="3"
               pr="3"
               rightIcon={null}
+              fontWeight="normal"
             >
               {birthDay ? birthDay : "Select Day"}
             </MenuButton>
             <MenuList maxH="200px" overflowY="auto">
               {Array.from(
-                { length: getDaysInMonth(birthMonth, birthYear || currentYear) },
-                (_, i) => (
+                {
+                  length: getDaysInMonth(birthMonth, birthYear || currentYear)
+                },
+                (_, i) =>
                   <MenuItem key={i} onClick={() => setBirthDay(i + 1)}>
                     {i + 1}
                   </MenuItem>
-                )
               )}
             </MenuList>
           </Menu>
@@ -173,15 +193,16 @@ export default function UserInformation() {
               pl="3"
               pr="3"
               rightIcon={null}
+              fontWeight="normal"
             >
               {birthYear ? birthYear : "Select Year"}
             </MenuButton>
             <MenuList maxH="200px" overflowY="auto">
-              {years.map((y) => (
+              {years.map(y =>
                 <MenuItem key={y} onClick={() => setBirthYear(y)}>
                   {y}
                 </MenuItem>
-              ))}
+              )}
             </MenuList>
           </Menu>
         </Flex>
@@ -191,13 +212,16 @@ export default function UserInformation() {
       <SimpleGrid columns={{ base: 1, md: 2 }} spacing={4} mt={4}>
         <FormControl>
           <FormLabel>
-            Email <Text as="span" color={buttonBg}>*</Text>
+            Email{" "}
+            <Text as="span" color={buttonBg}>
+              *
+            </Text>
           </FormLabel>
           <Input
             type="email"
             placeholder="Email"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={e => setEmail(e.target.value)}
             bg={inputBg}
             color={inputColor}
             _focus={inputFocus}
@@ -206,12 +230,15 @@ export default function UserInformation() {
 
         <FormControl>
           <FormLabel>
-            Phone Number <Text as="span" color={buttonBg}>*</Text>
+            Phone Number{" "}
+            <Text as="span" color={buttonBg}>
+              *
+            </Text>
           </FormLabel>
           <Input
             placeholder="Phone Number"
             value={phone}
-            onChange={(e) => setPhone(e.target.value)}
+            onChange={e => setPhone(e.target.value)}
             bg={inputBg}
             color={inputColor}
             _focus={inputFocus}
