@@ -123,38 +123,32 @@ export default function LogsTable() {
         />
 
         {/* Entries per page dropdown */}
-<Menu>
-  <MenuButton
-    as={Button}
-    bg={menuBg}              // button background
-    color={menuColor}         // button text
-    borderRadius="8px"
-    border="2px solid #00B474"  // green outline
-    boxShadow="0 2px 6px rgba(0, 180, 116, 0.3)" // subtle shadow with green tint
-    _hover={{ bg: menuBg, boxShadow: "0 2px 8px rgba(0, 180, 116, 0.5)" }} // hover slightly stronger shadow
-  >
-    {entriesPerPage} rows
-  </MenuButton>
+        <Menu>
+          <MenuButton
+            as={Button}
+            bg={menuBg}
+            color={menuColor}
+            borderRadius="8px"
+            border="2px solid #00B474"
+            boxShadow="0 2px 6px rgba(0, 180, 116, 0.3)"
+            _hover={{ bg: menuBg, boxShadow: "0 2px 8px rgba(0, 180, 116, 0.5)" }}
+          >
+            {entriesPerPage} rows
+          </MenuButton>
 
-  <MenuList
-    bg={menuBg}
-    color={menuColor}
-    boxShadow="lg"
-  >
-    {[10, 25, 50, 100].map((num) => (
-      <MenuItem
-        key={num}
-        bg={entriesPerPage === num ? menuHover : menuBg}
-        _hover={{ bg: menuHover, color: "white" }}
-        onClick={() => { setEntriesPerPage(num); setCurrentPage(1); }}
-      >
-        {num} rows
-      </MenuItem>
-    ))}
-  </MenuList>
-</Menu>
-
-        
+          <MenuList bg={menuBg} color={menuColor} boxShadow="lg">
+            {[10, 25, 50, 100].map((num) => (
+              <MenuItem
+                key={num}
+                bg={entriesPerPage === num ? menuHover : menuBg}
+                _hover={{ bg: menuHover, color: "white" }}
+                onClick={() => { setEntriesPerPage(num); setCurrentPage(1); }}
+              >
+                {num} rows
+              </MenuItem>
+            ))}
+          </MenuList>
+        </Menu>
       </Flex>
 
       {/* Table */}
@@ -163,7 +157,8 @@ export default function LogsTable() {
           <Tr>
             {columns.map((col) => (
               <Th key={col} cursor="pointer" onClick={() => handleSort(col)} color={textColor}>
-                {col.charAt(0).toUpperCase() + col.slice(1)}
+                {col.charAt(0).toUpperCase() + col.slice(1)}{" "}
+                {sortConfig.key === col && (sortConfig.direction === "asc" ? "↑" : "↓")}
               </Th>
             ))}
           </Tr>

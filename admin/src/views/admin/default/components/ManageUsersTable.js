@@ -35,7 +35,7 @@ import {
 import { ViewIcon, EditIcon } from "@chakra-ui/icons";
 
 // Date formatting
-import { formatDistanceToNow } from "date-fns";
+import { formatDistanceToNow, format } from "date-fns"; // Import for formatting birthday
 
 // Sample Data
 const usersData = [
@@ -82,6 +82,9 @@ export default function ManageUsersTable() {
   const [currentPage, setCurrentPage] = useState(1);
   const entriesPerPage = 5;
 
+  // Sorting state
+  const [sortConfig, setSortConfig] = useState({ key: null, direction: "asc" });
+
   // Colors
   const textColor = useColorModeValue("gray.700", "white");
   const tableBg = useColorModeValue("white", "#0C0D0C");
@@ -93,15 +96,32 @@ export default function ManageUsersTable() {
   const inputColor = useColorModeValue("gray.800", "white");
   const buttonBg = useColorModeValue("#00B474", "#00B474");
 
+  // Sorting logic
+  const sortedData = useMemo(() => {
+    let sortableData = [...usersData];
+    if (sortConfig.key) {
+      sortableData.sort((a, b) => {
+        if (a[sortConfig.key] < b[sortConfig.key]) {
+          return sortConfig.direction === "asc" ? -1 : 1;
+        }
+        if (a[sortConfig.key] > b[sortConfig.key]) {
+          return sortConfig.direction === "asc" ? 1 : -1;
+        }
+        return 0;
+      });
+    }
+    return sortableData;
+  }, [usersData, sortConfig]);
+
   // Filter data
   const filteredData = useMemo(() => {
     const query = searchQuery.toLowerCase();
-    return usersData.filter((u) =>
+    return sortedData.filter((u) =>
       `${u.firstName} ${u.lastName} ${u.email} ${u.role}`
         .toLowerCase()
         .includes(query)
     );
-  }, [searchQuery]);
+  }, [searchQuery, sortedData]);
 
   // Pagination calc
   const totalPages = Math.ceil(filteredData.length / entriesPerPage);
@@ -109,6 +129,14 @@ export default function ManageUsersTable() {
     (currentPage - 1) * entriesPerPage,
     currentPage * entriesPerPage
   );
+
+  // Handle sorting
+  const handleSort = (key) => {
+    setSortConfig((prev) => ({
+      key,
+      direction: prev.key === key && prev.direction === "asc" ? "desc" : "asc",
+    }));
+  };
 
   return (
     <Box mt="20px" p="20px" bg={tableBg} borderRadius="12px" boxShadow="lg">
@@ -138,11 +166,21 @@ export default function ManageUsersTable() {
       <Table variant="simple" bg={tableBg} borderRadius="12px" overflow="hidden">
         <Thead>
           <Tr>
-            <Th color={textColor}>Full Name</Th>
-            <Th color={textColor}>Email</Th>
-            <Th color={textColor}>Role</Th>
-            <Th color={textColor}>Status</Th>
-            <Th color={textColor}>Last Online</Th>
+            <Th color={textColor} onClick={() => handleSort("firstName")} cursor="pointer">
+              Full Name {sortConfig.key === "firstName" && (sortConfig.direction === "asc" ? "↑" : "↓")}
+            </Th>
+            <Th color={textColor} onClick={() => handleSort("email")} cursor="pointer">
+              Email {sortConfig.key === "email" && (sortConfig.direction === "asc" ? "↑" : "↓")}
+            </Th>
+            <Th color={textColor} onClick={() => handleSort("role")} cursor="pointer">
+              Role {sortConfig.key === "role" && (sortConfig.direction === "asc" ? "↑" : "↓")}
+            </Th>
+            <Th color={textColor} onClick={() => handleSort("status")} cursor="pointer">
+              Status {sortConfig.key === "status" && (sortConfig.direction === "asc" ? "↑" : "↓")}
+            </Th>
+            <Th color={textColor} onClick={() => handleSort("lastOnline")} cursor="pointer">
+              Last Online {sortConfig.key === "lastOnline" && (sortConfig.direction === "asc" ? "↑" : "↓")}
+            </Th>
             <Th color={textColor}>Action</Th>
           </Tr>
         </Thead>
@@ -239,7 +277,7 @@ export default function ManageUsersTable() {
                 </Box>
                 <Box>
                   <Text fontWeight="bold">Birthday</Text>
-                  <Text>{selectedUser.birthday}</Text>
+                  <Text>{format(new Date(selectedUser.birthday), "MM-dd-yyyy")}</Text>
                 </Box>
                 <Box>
                   <Text fontWeight="bold">Email</Text>

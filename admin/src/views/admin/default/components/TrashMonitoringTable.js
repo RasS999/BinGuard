@@ -79,56 +79,58 @@ export default function TrashMonitoringTable() {
 
   return (
     <Box mt="20px" p="20px" bg={tableBg} borderRadius="12px" boxShadow="md">
-{/* Header */}
-<Flex justify="space-between" align="center" mb="4">
-  <Text fontSize="lg" fontWeight="700" color={textColor}>
-    Trash Monitoring
-  </Text>
+      {/* Header */}
+      <Flex justify="space-between" align="center" mb="4">
+        <Text fontSize="lg" fontWeight="700" color={textColor}>
+          Trash Monitoring
+        </Text>
 
-  {/* Controls: search + entries dropdown */}
-  <Flex align="center" gap="4">
-    {/* Search bar */}
-    <Box w="200px">
-      <Input
-        placeholder="Search..."
-        size="sm"
-        value={searchQuery}
-        onChange={(e) => setSearchQuery(e.target.value)}
-        bg={useColorModeValue("white", "#1A1A1A")}
-        color={textColor}
-      />
-    </Box>
+        {/* Controls: search + entries dropdown */}
+        <Flex align="center" gap="4">
+          {/* Search bar */}
+          <Box w="200px">
+            <Input
+              placeholder="Search..."
+              size="sm"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              bg={useColorModeValue("white", "#1A1A1A")}
+              color={textColor}
+            />
+          </Box>
 
-    {/* Entries per page dropdown */}
-    <Menu>
-      <MenuButton
-        as={Button}
-        bg={menuBg}
-        color={menuColor}
-        borderRadius="8px"
-        border="2px solid #00B474"
-        boxShadow="0 2px 6px rgba(0,180,116,0.3)"
-        _hover={{ bg: menuBg, boxShadow: "0 2px 8px rgba(0,180,116,0.5)" }}
-      >
-        {entriesPerPage} rows
-      </MenuButton>
+          {/* Entries per page dropdown */}
+          <Menu>
+            <MenuButton
+              as={Button}
+              bg={menuBg}
+              color={menuColor}
+              borderRadius="8px"
+              border="2px solid #00B474"
+              boxShadow="0 2px 6px rgba(0,180,116,0.3)"
+              _hover={{ bg: menuBg, boxShadow: "0 2px 8px rgba(0,180,116,0.5)" }}
+            >
+              {entriesPerPage} rows
+            </MenuButton>
 
-      <MenuList bg={menuBg} color={menuColor} boxShadow="lg">
-        {[10, 25, 50, 100].map((num) => (
-          <MenuItem
-            key={num}
-            bg={entriesPerPage === num ? menuHover : menuBg}
-            _hover={{ bg: menuHover, color: "white" }}
-            onClick={() => { setEntriesPerPage(num); setCurrentPage(1); }}
-          >
-            {num} rows
-          </MenuItem>
-        ))}
-      </MenuList>
-    </Menu>
-  </Flex>
-</Flex>
-
+            <MenuList bg={menuBg} color={menuColor} boxShadow="lg">
+              {[10, 25, 50, 100].map((num) => (
+                <MenuItem
+                  key={num}
+                  bg={entriesPerPage === num ? menuHover : menuBg}
+                  _hover={{ bg: menuHover, color: "white" }}
+                  onClick={() => {
+                    setEntriesPerPage(num);
+                    setCurrentPage(1);
+                  }}
+                >
+                  {num} rows
+                </MenuItem>
+              ))}
+            </MenuList>
+          </Menu>
+        </Flex>
+      </Flex>
 
       {/* Table */}
       <Table variant="simple" bg={tableBg}>
@@ -145,7 +147,8 @@ export default function TrashMonitoringTable() {
                   ? "Robot Name"
                   : col === "trashLevel"
                   ? "Trash Level"
-                  : col.charAt(0).toUpperCase() + col.slice(1)}
+                  : col.charAt(0).toUpperCase() + col.slice(1)}{" "}
+                {sortConfig.key === col && (sortConfig.direction === "asc" ? "↑" : "↓")}
               </Th>
             ))}
           </Tr>

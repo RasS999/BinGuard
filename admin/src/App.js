@@ -9,7 +9,7 @@ import {
   ChakraProvider,
   // extendTheme
 } from '@chakra-ui/react';
-import initialTheme from './theme/theme'; //  { themeGreen }
+import initialTheme from './theme/theme';
 import { useState } from 'react';
 // Chakra imports
 
