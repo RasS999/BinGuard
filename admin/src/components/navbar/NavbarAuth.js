@@ -31,6 +31,7 @@ import { SidebarContext } from "contexts/SidebarContext";
 import { GoChevronDown, GoChevronRight } from "react-icons/go";
 import routes from "routes.js";
 
+
 export default function AuthNavbar(props) {
   const { logo, logoText, secondary, sidebarWidth, ...rest } = props;
   const { colorMode } = useColorMode();

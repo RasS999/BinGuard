@@ -16,7 +16,6 @@ export default function Dashboard(props) {
   // states and functions
   const [fixed] = useState(false);
   const [toggleSidebar, setToggleSidebar] = useState(false);
-<<<<<<< HEAD:admin/src/layouts/admin/index.js
 
   const getRoute = () => window.location.pathname !== '/admin/full-screen-maps';
 
@@ -70,90 +69,6 @@ export default function Dashboard(props) {
     }
     return activeNavbar;
   };
-=======
-  // functions for changing the states from components
-  const getRoute = () => {
-    return window.location.pathname !== '/rtl/full-screen-maps';
-  };
-const getActiveRoute = (routesArray) => {
-  let activeRoute = "Default Brand Text";
-
-  for (let i = 0; i < routesArray.length; i++) {
-    const route = routesArray[i];
-
-    // Handle collapse routes safely
-    if (route.collapse && Array.isArray(route.items)) {
-      const collapseActiveRoute = getActiveRoute(route.items);
-      if (collapseActiveRoute !== activeRoute) {
-        return collapseActiveRoute;
-      }
-    } 
-    // Handle category routes safely
-    else if (route.category && Array.isArray(route.items)) {
-      const categoryActiveRoute = getActiveRoute(route.items);
-      if (categoryActiveRoute !== activeRoute) {
-        return categoryActiveRoute;
-      }
-    } 
-    else {
-      if (window.location.href.indexOf(route.layout + route.path) !== -1) {
-        return route.name;
-      }
-    }
-  }
-
-  return activeRoute;
-};
-
-// Similarly for Navbar secondary and message
-const getActiveNavbar = (routesArray) => {
-  let activeNavbar = false;
-
-  for (let i = 0; i < routesArray.length; i++) {
-    const route = routesArray[i];
-
-    if (route.collapse && Array.isArray(route.items)) {
-      const collapseActiveNavbar = getActiveNavbar(route.items);
-      if (collapseActiveNavbar !== activeNavbar) return collapseActiveNavbar;
-    } 
-    else if (route.category && Array.isArray(route.items)) {
-      const categoryActiveNavbar = getActiveNavbar(route.items);
-      if (categoryActiveNavbar !== activeNavbar) return categoryActiveNavbar;
-    } 
-    else {
-      if (window.location.href.indexOf(route.layout + route.path) !== -1) {
-        return route.secondary || false;
-      }
-    }
-  }
-
-  return activeNavbar;
-};
-
-const getActiveNavbarText = (routesArray) => {
-  let activeText = false;
-
-  for (let i = 0; i < routesArray.length; i++) {
-    const route = routesArray[i];
-
-    if (route.collapse && Array.isArray(route.items)) {
-      const collapseActiveText = getActiveNavbarText(route.items);
-      if (collapseActiveText !== activeText) return collapseActiveText;
-    } 
-    else if (route.category && Array.isArray(route.items)) {
-      const categoryActiveText = getActiveNavbarText(route.items);
-      if (categoryActiveText !== activeText) return categoryActiveText;
-    } 
-    else {
-      if (window.location.href.indexOf(route.layout + route.path) !== -1) {
-        return route.messageNavbar || false;
-      }
-    }
-  }
-
-  return activeText;
-};
->>>>>>> 47f06c8 (Updated project: added new components, modified layouts, removed old files):src/layouts/rtl/index.js
 
   const getRoutes = (routes) => {
     return routes.map((route, key) => {
@@ -222,12 +137,6 @@ const getActiveNavbarText = (routesArray) => {
               </Routes>
             </Box>
           ) : null}
-<<<<<<< HEAD:admin/src/layouts/admin/index.js
-=======
-          <Box>
-            {/* <Footer /> */}
-          </Box>
->>>>>>> 47f06c8 (Updated project: added new components, modified layouts, removed old files):src/layouts/rtl/index.js
         </Box>
       </SidebarContext.Provider>
     </Box>
